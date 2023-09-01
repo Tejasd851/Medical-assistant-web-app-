@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Alzheimer's Detection</title>
+    <!-- Add your CSS styles here -->
+</head>
+<body>
+    <h1>Alzheimer's Detection</h1>
+    <form action="/alzheimer" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" onchange="previewImage(this);">
+        <input type="submit" value="Detect Alzheimer's">
+    </form>
+    <h3>Uploaded Image:</h3>
+    <img id="preview" src="#" alt="Uploaded Image" style="max-width: 100%; display: none;">
+    <h3>Prediction Result:</h3>
+    <p id="prediction"></p>
+    <script>
+        // JavaScript to display the uploaded image and handle the prediction result for Alzheimer's
+        // ...
+    </script>
+</body>
+</html>

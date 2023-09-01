@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medical Assistant Web App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        h2 {
+            color: #666;
+            text-align: center;
+        }
+        form {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            width: 200px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #3498db;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            display: block;
+            margin: 20px auto;
+            padding: 10px 20px;
+            background-color: #27ae60;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #preview {
+            max-width: 100%;
+            display: none;
+            margin: 20px auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        h3 {
+            color: #333;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #prediction {
+            color: #27ae60;
+            font-weight: bold;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Brain Tumor Prediction</h1>
+    <form action="/brain_tumor" method="post" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" onchange="previewImage(this);">
+        <input type="submit" value="Predict">
+    </form>
+    <h3>Uploaded Image:</h3>
+    <img id="preview" src="#" alt="Uploaded Image" style="max-width: 100%; display: none;">
+    <h3>Prediction Result:</h3>
+    <p id="prediction"></p>
+    <script>
+        // JavaScript to display the uploaded image
+        function previewImage(input) {
+            const preview = document.getElementById('preview');
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block'; // Show the image
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.style.display = 'none'; // Hide the image if no file is selected
+            }
+        }
+
+        // JavaScript to handle the prediction result
+        const form = document.querySelector('form');
+        const predictionElement = document.getElementById('prediction');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const response = await fetch('/brain_tumor', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            predictionElement.textContent = `Prediction: ${data.prediction}`;
+        });
+    </script>
+</body>
+</html>
